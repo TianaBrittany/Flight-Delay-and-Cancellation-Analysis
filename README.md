@@ -36,7 +36,7 @@ The objective is to demonstrate the use of SQL in performing real-world data ana
 
 ### 1. Data Validation and Cleaning  
 Ensured data integrity by identifying missing or invalid departure and delay values.  
-```sql
+
 SELECT * 
 FROM flights
 WHERE actual_departure IS NULL OR departure_delay IS NULL;
