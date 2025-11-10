@@ -42,6 +42,8 @@ FROM flights
 WHERE actual_departure IS NULL OR departure_delay IS NULL;
 
 ### 2. Average Delay by Airline
+Calculated mean delay time per airline for completed flights.
+
 SELECT airline, 
        ROUND(AVG(departure_delay), 2) AS avg_delay
 FROM flights
@@ -50,6 +52,8 @@ GROUP BY airline
 ORDER BY avg_delay DESC;
 
 ### 3. Delay Patterns by Time of Day
+Classified scheduled departures into morning, afternoon, and evening windows to analyze delay trends.
+
 SELECT 
   CASE 
     WHEN CAST(strftime('%H', scheduled_departure) AS INTEGER) BETWEEN 5 AND 11 THEN 'Morning'
@@ -63,6 +67,8 @@ GROUP BY time_of_day
 ORDER BY avg_delay DESC;
 
 ### 4. Cancellations by Airline
+Computed cancellation rates by airline to evaluate reliability.
+
 SELECT airline, 
        COUNT(*) AS total_flights,
        SUM(cancelled) AS cancelled_flights,
