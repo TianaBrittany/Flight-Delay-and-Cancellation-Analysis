@@ -1,22 +1,22 @@
 # Flight Delay and Cancellation Analysis  
-Airline Operations Analytics Using SQL  
+**Airline Operations Data Analysis Using SQL**
 
 ## Project Overview  
-This project analyzes flight performance data to identify patterns in delays and cancellations across major airlines. Using SQL, the analysis explores how time of day, carrier, and scheduling contribute to operational inefficiencies.  
+This project explores flight performance data to uncover patterns in delays and cancellations across major airlines. The objective is to transform raw operational data into actionable insights that could inform decisions on scheduling optimization and process improvement.  
 
-The objective is to demonstrate the use of SQL in performing real-world data analysis—transforming raw operational data into actionable insights that could support scheduling optimization and performance improvement strategies.  
+The analysis demonstrates proficiency in SQL for data cleaning, aggregation, and analytical reporting—showing how structured query logic can reveal performance trends and reliability gaps across flight operations.  
 
 ---
 
 ## Objectives  
-- Examine average delay durations by airline and time of day.  
-- Calculate cancellation rates to assess carrier reliability.  
-- Identify operational trends contributing to higher delays.  
-- Demonstrate SQL proficiency in data cleaning, aggregation, and reporting.  
+- Identify the airlines with the highest average delays.  
+- Analyze delay patterns by time of day to identify operational inefficiencies.  
+- Calculate cancellation rates to evaluate carrier reliability.  
+- Demonstrate SQL fluency through conditional logic, aggregation, and time-based analysis.  
 
 ---
 
-## Dataset Description  
+## Dataset Overview  
 **Table:** `flights`
 
 | Column | Type | Description |
@@ -32,48 +32,39 @@ The objective is to demonstrate the use of SQL in performing real-world data ana
 
 ---
 
-## SQL Methodology  
+## Methodology  
+The analysis was performed in SQLite using structured queries to explore flight data from multiple perspectives:  
 
-### 1. Data Validation and Cleaning  
-Ensured data integrity by identifying missing or invalid departure and delay values.  
+1. **Data Cleaning** – Identified null and inconsistent records in departure and delay fields.  
+2. **Average Delay Analysis** – Aggregated and ranked airlines by mean delay time for completed flights.  
+3. **Time-of-Day Categorization** – Segmented flights into morning, afternoon, and evening windows to reveal time-based delay patterns.  
+4. **Cancellation Evaluation** – Calculated airline-level cancellation rates and overall reliability scores.  
 
-SELECT * 
-FROM flights
-WHERE actual_departure IS NULL OR departure_delay IS NULL;
+These steps were executed using **Common Table Expressions (CTEs)**, conditional logic (`CASE` statements), and aggregation functions such as `AVG()` and `COUNT()`.
 
-### 2. Average Delay by Airline
-Calculated mean delay time per airline for completed flights.
+---
 
-SELECT airline, 
-       ROUND(AVG(departure_delay), 2) AS avg_delay
-FROM flights
-WHERE cancelled = 0
-GROUP BY airline
-ORDER BY avg_delay DESC;
+## Key Insights  
+- Afternoon and evening flights consistently experienced longer average delays than morning flights.  
+- A small subset of airlines accounted for most cancellations, indicating potential operational or scheduling inefficiencies.  
+- Delay and cancellation trends suggest bottlenecks in specific routes and times, highlighting areas for optimization.  
 
-### 3. Delay Patterns by Time of Day
-Classified scheduled departures into morning, afternoon, and evening windows to analyze delay trends.
+---
 
-SELECT 
-  CASE 
-    WHEN CAST(strftime('%H', scheduled_departure) AS INTEGER) BETWEEN 5 AND 11 THEN 'Morning'
-    WHEN CAST(strftime('%H', scheduled_departure) AS INTEGER) BETWEEN 12 AND 17 THEN 'Afternoon'
-    ELSE 'Evening' 
-  END AS time_of_day,
-  ROUND(AVG(departure_delay), 2) AS avg_delay
-FROM flights
-WHERE cancelled = 0
-GROUP BY time_of_day
-ORDER BY avg_delay DESC;
+## Tools and Skills Demonstrated  
+- SQL (SQLite) for query logic, data aggregation, and transformation  
+- Analytical problem-solving with time-series and categorical data  
+- Operational insight generation for performance management  
+- Data storytelling through structured, reproducible logic  
 
-### 4. Cancellations by Airline
-Computed cancellation rates by airline to evaluate reliability.
+---
 
-SELECT airline, 
-       COUNT(*) AS total_flights,
-       SUM(cancelled) AS cancelled_flights,
-       ROUND(SUM(cancelled) * 100.0 / COUNT(*), 2) AS cancellation_rate
-FROM flights
-GROUP BY airline
-ORDER BY cancellation_rate DESC;
+## Future Enhancements  
+- Integrate additional datasets (weather, airport traffic) for correlation analysis.  
+- Visualize results using Power BI or Tableau to provide interactive dashboards.  
+- Automate recurring reports using SQL scripts or Python connectors.  
 
+---
+
+**Author:** [Tiana Durant](https://www.linkedin.com/in/tiana-mayfield-6a2784231)  
+**Repository:** [Flight Delay and Cancellation Analysis](https://github.com/TianaBrittany/SQL)
